@@ -15,6 +15,6 @@ python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
 Test script detectron2
 
 ```cmd
-python detectron2.py --input /path/to/a/video/sequence/from/KITTI --dataset kitti --ckpt /path/to/model.pth
+python detectron2.py --input /path/to/a/video/sequence/or/a/single/image/from/KITTI --dataset kitti --ckpt /path/to/model.pth
 ```
 
