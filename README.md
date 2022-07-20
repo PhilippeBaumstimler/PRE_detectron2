@@ -6,11 +6,7 @@ python -m pip install cityscapesscripts
 ```
 
 Install detectron2 repository
-
-```cmd
-python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
-# (add --user if you don't have permission)
-```
+https://detectron2.readthedocs.io/en/latest/tutorials/install.html
 
 Test script detectron2
 
