@@ -221,14 +221,14 @@ if __name__ == "__main__":
     import random
     from detectron2.utils.visualizer import Visualizer
     from detectron2.data import MetadataCatalog
-    create_cityscapes_pm_dataset()
-    cityscapes_pm_instance_metadata = MetadataCatalog.get("cityscapes_pm_instance_train")
+    create_kitti_dataset()
+    kitti_seg_instance_metadata = MetadataCatalog.get("kitti_seg_instance_train")
     print("Starting")
-    dataset_dicts = cityscapes_pm_seg_instance(True,  cityscapes_pm_decode,dir="data/cityscapes/leftImg8bit_trainvaltest")
+    dataset_dicts = kitti_seg_instance(True,  kitti_decode,dir="data/KITTI_seg")
     for d in random.sample(dataset_dicts,3):
         print(d["file_name"])
         img = cv.imread(d["file_name"])
-        visualizer = Visualizer(img[:, :, ::-1], metadata=cityscapes_pm_instance_metadata, scale=0.8)
+        visualizer = Visualizer(img[:, :, ::-1], metadata=kitti_seg_instance_metadata, scale=0.8)
         out = visualizer.draw_dataset_dict(d)
         plt.figure(figsize=(20,20))
         plt.imshow(out.get_image())
