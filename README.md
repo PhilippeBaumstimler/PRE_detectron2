@@ -11,6 +11,6 @@ https://detectron2.readthedocs.io/en/latest/tutorials/install.html
 Test script detectron2
 
 ```cmd
-python detectron2.py --input /path/to/a/video/sequence/or/a/single/image/from/KITTI --dataset kitti --ckpt /path/to/model.pth
+python detectron2_main.py --input /path/to/a/video/sequence/or/a/single/image/from/KITTI --dataset kitti --ckpt /path/to/model.pth
 ```
 
