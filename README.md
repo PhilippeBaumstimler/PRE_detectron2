@@ -18,12 +18,12 @@ python detectron2CustomDataset.py
 ```
 As a result, the script will generate and show 3 random images from the dataset and a mask of their groundtruth.
 
-##Detecron2
+## Detecron2
 
 Install detectron2 repository
 https://detectron2.readthedocs.io/en/latest/tutorials/install.html
 
-##Test installation
+## Test installation
 
 Test script detectron2
 
