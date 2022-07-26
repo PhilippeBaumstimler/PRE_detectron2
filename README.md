@@ -134,6 +134,8 @@ We modified the sort.py file in order to get the predicted masks of detectron2 i
 # Depth/Flow Statistics on KITTI_raw
 
 We preprocessed the KITTI_raw in order to have statistical data to use for motion detection. The file structure should be like this:
+
+```
 /KITTI_raw/
         | -- depth_distribution/
         |       | -- quantile_depth_distribution.npy
@@ -155,7 +157,7 @@ We preprocessed the KITTI_raw in order to have statistical data to use for motio
         |       | -- linear_mean_flow.npy
         |       | -- linear_var_flow.npy
         |       | -- tot_frame.npy
-
+```
 
 ## Depth distribution
 ## Rigid Flow statistics
