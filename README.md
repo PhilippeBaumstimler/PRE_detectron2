@@ -117,6 +117,20 @@ python detectron2Train.py --dataset ['kitti', 'cityscapes', 'kitti8'] --ckpt /pa
 
 Prints instance segmentation metrics (mAP) on the evaluation loader of your dataset. 
 
+# Tracking : SORT (Simple Online and Realtime Tracking algorithm)
+## Detectron2 x SORT
+
+An example of how to use the the SORT algorithm with detectron2 can be found in "detectron2ObjectTracking.py"
+
+```cmd
+python detectron2ObjectTracking.py --input /path/to/a/sequence/file --dataset ["kitti,"cityscapes",kitti8"] --ckpt /path/to/detectron/model.pth --num_classes [kitti and cityscape: 11 / kitti8: 8] --output /path/to/output/file --max_age 1 [--predict_on] 
+```
+Options:
+    --max_age: int>0, maximal age of each tracklets
+    --predict_on: allow SORT to predict when the detection is lost
+
+We modified the sort.py file in order to get the predicted masks of detectron2 instead of the one predicted by SORT. You can check the original implementation here: https://github.com/abewley/sort
+
 # References
 
 ```latex
@@ -130,7 +144,9 @@ Prints instance segmentation metrics (mAP) on the evaluation loader of your data
   month = {October},
   year = {2019}
 }
+```
 
+```latex
 @misc{Cityscapes,
   doi = {10.48550/ARXIV.1604.01685},
   url = {https://arxiv.org/abs/1604.01685},
@@ -141,12 +157,26 @@ Prints instance segmentation metrics (mAP) on the evaluation loader of your data
   year = {2016},
   copyright = {arXiv.org perpetual, non-exclusive license}
 }
+```
 
+```latex
 @article{KITTI,
   author = {Hassan Alhaija and Siva Mustikovela and Lars Mescheder and Andreas Geiger and Carsten Rother},
   title = {Augmented Reality Meets Computer Vision: Efficient Data Generation for Urban Driving Scenes},
   journal = {International Journal of Computer Vision (IJCV)},
   year = {2018}
+}
+```
+
+```latex
+@inproceedings{Bewley2016_sort,
+  author={Bewley, Alex and Ge, Zongyuan and Ott, Lionel and Ramos, Fabio and Upcroft, Ben},
+  booktitle={2016 IEEE International Conference on Image Processing (ICIP)},
+  title={Simple online and realtime tracking},
+  year={2016},
+  pages={3464-3468},
+  keywords={Benchmark testing;Complexity theory;Detectors;Kalman filters;Target tracking;Visualization;Computer Vision;Data Association;Detection;Multiple Object Tracking},
+  doi={10.1109/ICIP.2016.7533003}
 }
 ```
 
