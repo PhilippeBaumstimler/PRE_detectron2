@@ -19,7 +19,7 @@ python detectron2CustomDataset.py
 ```
 As a result, the script will generate and show 3 random images from the KITTI segmentation dataset and a mask of their groundtruth. Three custom datasets are implemented : kitti (the official KITTI segmentation dataset, with 11 labels corresponding to movable objects), kitti8 (the official KITTI segmentation dataset, with the 8 original labels used in pretrained models) and cityscapes_pm (the official Cityscapes dataset, with 11 labels corresponding to movable objects).
 
-The custom dataset cityscapes_pm can be obtained by changing the labels according to our training labels by using cityscapesscripts. Then, the detectron2 builtin_meta.py file need to be changed to fit those labels.
+The custom dataset cityscapes_pm can be obtained by changing the labels according to our training labels by using cityscapesscripts. It can be achieved by using "createCityscapesTrainDataset.py". Make sure to declare the environmental variable 'CITYSCAPES_DATASET' with the path to the original cityscapes dataset. This script will create a new cityscapes dataset with your training labels. Then, the detectron2 builtin_meta.py file need to be changed to fit those labels.
 
 ### Detecron2
 
@@ -72,6 +72,11 @@ def get_prediction(img, cfg, model):
 The detectron_main.py file shows an exemple of how to make a prediction. For further information, please check the detectron2 API documentation : 
 https://detectron2.readthedocs.io/en/latest/index.html
 
+Another example of how to do prediction can be found in "detectron2Predict.py". The script command is:
+
+```cmd
+python detectron2Predict.py --dataset ['kitti', 'cityscapes', 'kitti8'] --ckpt /path/to/checkpoint.pth --output /path/to/output/file --input /path/to/a/sequence/or/a/single/file --num_classes [default 8]
+
 ## Training
 
 The training is done in "detectron2Train.py".
@@ -102,5 +107,14 @@ elif args.dataset == "kitti8":
 
 This script uses the "detectron2CustomDataset.py" script, both should be in the same file. You can add your own custom dataset in the main function, by following the already written code. The results will be saved in the output file, along with the events file for tensorboard vizualisation.
 
+## Evaluation
+
+The evaluation is done in "detectron2Evluate.py"
+
+```cmd
+python detectron2Train.py --dataset ['kitti', 'cityscapes', 'kitti8'] --ckpt /path/to/checkpoint.pth --output /path/to/output/file --batch_size 1 --num_classes [default 8]
+```
+
+Prints instance segmentation metrics (mAP) on the evaluation loader of your dataset. 
 
 
