@@ -131,6 +131,39 @@ Options:
 
 We modified the sort.py file in order to get the predicted masks of detectron2 instead of the one predicted by SORT. You can check the original implementation here: https://github.com/abewley/sort
 
+# Depth/Flow Statistics on KITTI_raw
+
+We preprocessed the KITTI_raw in order to have statistical data to use for motion detection. The file structure should be like this:
+/KITTI_raw/
+        | -- depth_distribution/
+        |       | -- quantile_depth_distribution.npy
+        |       | -- linear_depth_ditribution.npy
+        |       | -- pixel_mean_depth.npy
+        | -- rigid_flow_distribution/
+        |       | -- global_mean_flow.npy
+        |       | -- global_var_flow.npy
+        |       | -- quantile_mean_flow.npy
+        |       | -- quantile_var_flow.npy
+        |       | -- linear_mean_flow.npy
+        |       | -- linear_var_flow.npy
+        |       | -- tot_frame.npy
+        | -- rigid_flow_sequence/
+        |       | -- global_mean_flow.npy
+        |       | -- global_var_flow.npy
+        |       | -- quantile_mean_flow.npy
+        |       | -- quantile_var_flow.npy
+        |       | -- linear_mean_flow.npy
+        |       | -- linear_var_flow.npy
+        |       | -- tot_frame.npy
+
+
+## Depth distribution
+## Rigid Flow statistics
+
+# Motion Detection
+## Detectron2 x SORT x Monodepth2
+## script KITTI_raw
+
 # References
 
 ```latex
