@@ -17,7 +17,9 @@ Now test the script:
 ```cmd
 python detectron2CustomDataset.py
 ```
-As a result, the script will generate and show 3 random images from the dataset and a mask of their groundtruth.
+As a result, the script will generate and show 3 random images from the KITTI segmentation dataset and a mask of their groundtruth. Three custom datasets are implemented : kitti (the official KITTI segmentation dataset, with 11 labels corresponding to movable objects), kitti8 (the official KITTI segmentation dataset, with the 8 original labels used in pretrained models) and cityscapes_pm (the official Cityscapes dataset, with 11 labels corresponding to movable objects).
+
+The custom dataset cityscapes_pm can be obtained by changing the labels according to our training labels by using cityscapesscripts. Then, the detectron2 builtin_meta.py file need to be change to fit those labels.
 
 ### Detecron2
 
@@ -26,16 +28,16 @@ https://detectron2.readthedocs.io/en/latest/tutorials/install.html
 
 ### Test installation
 
-Test script detectron2_main.py
+Test script detectron2Main.py
 
 ```cmd
-python detectron2_main.py --input /path/to/a/video/sequence/or/a/single/image/from/KITTI --dataset kitti --ckpt /path/to/model.pth
+python detectron2Main.py --input /path/to/a/video/sequence/or/a/single/image/from/KITTI --dataset kitti --ckpt /path/to/model.pth
 ```
 Works if no error is printed
 
 ## Prediction
 
-Detectron2 can be used to predict semantic instances within an image. The network is pretrained on Cityscapes and fine tuned on the KITTI segmentation dataset. Functions you will need are in the detectron2_main.py file.
+Detectron2 can be used to predict semantic instances within an image. The network is pretrained on Cityscapes and fine tuned on the KITTI segmentation dataset. Functions you will need are in the detectron2Main.py file.
 
 The network is initialized in the "init_model_detectron2" function:
 
@@ -69,3 +71,36 @@ def get_prediction(img, cfg, model):
 ```
 The detectron_main.py file shows an exemple of how to make a prediction. For further information, please check the detectron2 API documentation : 
 https://detectron2.readthedocs.io/en/latest/index.html
+
+## Training
+
+The training is done in "detectron2Train.py".
+    - 
+
+```cmd
+python detectron2Train.py --dataset ['kitti', 'cityscapes', 'kitti8'] --ckpt /path/to/checkpoint.pth --output /path/to/output/file --batch_size [default 2] --lr [default 0.001] --max_iter [default 300] --num_classes [default 8] --resume store_true start training from last iteration
+```
+
+We use environment variables to adress each dataset, be sure to change their value with the location of your datasets:
+
+```python
+if args.dataset == "cityscapes":
+        os.environ['CITYSCAPES_DATASET']="/media/nicolas/data/cityscapes_pm/"
+        #os.system('echo $CITYSCAPES_DATASET')
+        train_mode = "cityscapes_fine_instance_seg_train"
+    elif args.dataset == "kitti":
+        os.environ['KITTI_SEG_DATASET']="/media/nicolas/data/KITTI_seg/"
+        #os.system('echo $CITYSCAPES_DATASET')
+        train_mode = "kitti_seg_instance_train"
+        CustomDataset.create_kitti_dataset()
+    elif args.dataset == "kitti8":
+        os.environ['KITTI_SEG_DATASET']="/media/nicolas/data/KITTI_seg/"
+        #os.system('echo $CITYSCAPES_DATASET')
+        train_mode = "kitti_seg_instance_train8"
+        CustomDataset.create_kitti_dataset8()
+```
+
+This script uses the "detectron2CustomDataset.py" script, both should be in the same file. You can add your own custom dataset in the main function, by following the already written code. The results will be saved in the output file, along with the events file for tensorboard vizualisation.
+
+
+
