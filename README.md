@@ -117,4 +117,36 @@ python detectron2Train.py --dataset ['kitti', 'cityscapes', 'kitti8'] --ckpt /pa
 
 Prints instance segmentation metrics (mAP) on the evaluation loader of your dataset. 
 
+# References
+
+```latex
+@article{monodepth2,
+  title     = {Digging into Self-Supervised Monocular Depth Prediction},
+  author    = {Cl{\'{e}}ment Godard and
+               Oisin {Mac Aodha} and
+               Michael Firman and
+               Gabriel J. Brostow},
+  booktitle = {The International Conference on Computer Vision (ICCV)},
+  month = {October},
+  year = {2019}
+}
+
+@misc{Cityscapes,
+  doi = {10.48550/ARXIV.1604.01685},
+  url = {https://arxiv.org/abs/1604.01685},
+  author = {Cordts, Marius and Omran, Mohamed and Ramos, Sebastian and Rehfeld, Timo and Enzweiler, Markus and Benenson, Rodrigo and Franke, Uwe and Roth, Stefan and Schiele, Bernt},
+  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {The Cityscapes Dataset for Semantic Urban Scene Understanding},
+  publisher = {arXiv},
+  year = {2016},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+@article{KITTI,
+  author = {Hassan Alhaija and Siva Mustikovela and Lars Mescheder and Andreas Geiger and Carsten Rother},
+  title = {Augmented Reality Meets Computer Vision: Efficient Data Generation for Urban Driving Scenes},
+  journal = {International Journal of Computer Vision (IJCV)},
+  year = {2018}
+}
+```
 
