@@ -19,7 +19,7 @@ python detectron2CustomDataset.py
 ```
 As a result, the script will generate and show 3 random images from the KITTI segmentation dataset and a mask of their groundtruth. Three custom datasets are implemented : kitti (the official KITTI segmentation dataset, with 11 labels corresponding to movable objects), kitti8 (the official KITTI segmentation dataset, with the 8 original labels used in pretrained models) and cityscapes_pm (the official Cityscapes dataset, with 11 labels corresponding to movable objects).
 
-The custom dataset cityscapes_pm can be obtained by changing the labels according to our training labels by using cityscapesscripts. Then, the detectron2 builtin_meta.py file need to be change to fit those labels.
+The custom dataset cityscapes_pm can be obtained by changing the labels according to our training labels by using cityscapesscripts. Then, the detectron2 builtin_meta.py file need to be changed to fit those labels.
 
 ### Detecron2
 
@@ -85,19 +85,19 @@ We use environment variables to adress each dataset, be sure to change their val
 
 ```python
 if args.dataset == "cityscapes":
-        os.environ['CITYSCAPES_DATASET']="/media/nicolas/data/cityscapes_pm/"
-        #os.system('echo $CITYSCAPES_DATASET')
-        train_mode = "cityscapes_fine_instance_seg_train"
-    elif args.dataset == "kitti":
-        os.environ['KITTI_SEG_DATASET']="/media/nicolas/data/KITTI_seg/"
-        #os.system('echo $CITYSCAPES_DATASET')
-        train_mode = "kitti_seg_instance_train"
-        CustomDataset.create_kitti_dataset()
-    elif args.dataset == "kitti8":
-        os.environ['KITTI_SEG_DATASET']="/media/nicolas/data/KITTI_seg/"
-        #os.system('echo $CITYSCAPES_DATASET')
-        train_mode = "kitti_seg_instance_train8"
-        CustomDataset.create_kitti_dataset8()
+    os.environ['CITYSCAPES_DATASET']="/media/nicolas/data/cityscapes_pm/"
+    #os.system('echo $CITYSCAPES_DATASET')
+    train_mode = "cityscapes_fine_instance_seg_train"
+elif args.dataset == "kitti":
+    os.environ['KITTI_SEG_DATASET']="/media/nicolas/data/KITTI_seg/"
+    #os.system('echo $CITYSCAPES_DATASET')
+    train_mode = "kitti_seg_instance_train"
+    CustomDataset.create_kitti_dataset()
+elif args.dataset == "kitti8":
+    os.environ['KITTI_SEG_DATASET']="/media/nicolas/data/KITTI_seg/"
+    #os.system('echo $CITYSCAPES_DATASET')
+    train_mode = "kitti_seg_instance_train8"
+    CustomDataset.create_kitti_dataset8()
 ```
 
 This script uses the "detectron2CustomDataset.py" script, both should be in the same file. You can add your own custom dataset in the main function, by following the already written code. The results will be saved in the output file, along with the events file for tensorboard vizualisation.
