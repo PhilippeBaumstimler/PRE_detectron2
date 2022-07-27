@@ -137,26 +137,26 @@ We preprocessed the KITTI_raw in order to have statistical data to use for motio
 
 ```
 /KITTI_raw/
-        | -- depth_distribution/
-        |       | -- quantile_depth_distribution.npy
-        |       | -- linear_depth_ditribution.npy
-        |       | -- pixel_mean_depth.npy
-        | -- rigid_flow_distribution/
-        |       | -- global_mean_flow.npy
-        |       | -- global_var_flow.npy
-        |       | -- quantile_mean_flow.npy
-        |       | -- quantile_var_flow.npy
-        |       | -- linear_mean_flow.npy
-        |       | -- linear_var_flow.npy
-        |       | -- tot_frame.npy
-        | -- rigid_flow_sequence/
-        |       | -- global_mean_flow.npy
-        |       | -- global_var_flow.npy
-        |       | -- quantile_mean_flow.npy
-        |       | -- quantile_var_flow.npy
-        |       | -- linear_mean_flow.npy
-        |       | -- linear_var_flow.npy
-        |       | -- tot_frame.npy
+    | -- depth_distribution/
+    |       | -- quantile_depth_distribution.npy
+    |       | -- linear_depth_ditribution.npy
+    |       | -- pixel_mean_depth.npy
+    | -- rigid_flow_distribution/
+    |       | -- global_mean_flow.npy
+    |       | -- global_var_flow.npy
+    |       | -- quantile_mean_flow.npy
+    |       | -- quantile_var_flow.npy
+    |       | -- linear_mean_flow.npy
+    |       | -- linear_var_flow.npy
+    |       | -- tot_frame.npy
+    | -- rigid_flow_sequence/
+    |       | -- global_mean_flow.npy
+    |       | -- global_var_flow.npy
+    |       | -- quantile_mean_flow.npy
+    |       | -- quantile_var_flow.npy
+    |       | -- linear_mean_flow.npy
+    |       | -- linear_var_flow.npy
+    |       | -- tot_frame.npy
 ```
 
 ## Depth distribution
@@ -164,7 +164,39 @@ We preprocessed the KITTI_raw in order to have statistical data to use for motio
 
 # Motion Detection
 ## Detectron2 x SORT x Monodepth2
-## script KITTI_raw
+## KITTI_motion dataset
+
+The KITTI_motion dataset is the result of "detectMovableObjectsKITTI.py" script. 
+
+```cmd
+python3 detectMovableObjectsKITTI.py --model_name mono+stereo_1024x320 --ext png --input /path/to/KITTI_raw --ckpt /path/to/detectron2/model.pth --dataset kitti --max_age 3
+```
+
+The script creates the dataset KITTI_motion, having the same file structure as KITTI_raw with masks of moving object for each image and instances data for each sequence.
+
+```
+KITTI_motion/
+    | -- 2011_09_26/
+    |       | -- 2011_09_26_drive_0001_sync/
+    |       |       | -- image_03/
+    |       |       |       | -- data/
+    |       |       |       |       | -- 0000000000.png       
+    |       |       |       |       ...
+    |       |       |       |       | -- instance_data.json  
+    ...
+
+- 0000000000.png : encoded mobile mask
+          -> 0 corresponds to the background
+          -> >0 corresponds to (1000*class+id), with class=[0=dynamic, 1=person,....] and id=[tracking id]
+
+- instance_data.json : for each frame of the sequence, stores the id, the bounding box and the detectron2 score for each mobile instance detected
+          -> instance_data["imgHeight"] : int, height of the image
+          -> instance_data["imgWidth"].pred_masks : int width of the image
+          -> instance_data["0000000000"] : List of mobile object dictionary
+                  -> instance_data["0000000000"][i]["id"] : tracking id of the mobile object
+                  -> instance_data["0000000000"][i]["bbox"] : bounding box of the object within the frame, format [x1,y1,x2,y2], upper right and bottom left                                                                         coordinates
+                  -> instance_data["0000000000"][i]["score"] : detectron2 score of the object
+```
 
 # References
 
