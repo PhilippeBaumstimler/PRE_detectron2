@@ -138,35 +138,69 @@ We preprocessed the KITTI_raw in order to have statistical data to use for motio
 ```
 /KITTI_raw/
     | -- depth_distribution/
-    |       | -- quantile_depth_distribution.npy
-    |       | -- linear_depth_ditribution.npy
-    |       | -- pixel_mean_depth.npy
+    |       | -- quantile_depth_distribution.npy        #size [10,H,W]
+    |       | -- linear_depth_ditribution.npy        #size [10,H,W]
+    |       | -- pixel_mean_depth.npy        #size [H,W]
     | -- rigid_flow_distribution/
-    |       | -- global_mean_flow.npy
-    |       | -- global_var_flow.npy
-    |       | -- quantile_mean_flow.npy
-    |       | -- quantile_var_flow.npy
-    |       | -- linear_mean_flow.npy
-    |       | -- linear_var_flow.npy
-    |       | -- tot_frame.npy
+    |       | -- global_mean_flow.npy        #size [H,W]
+    |       | -- global_var_flow.npy         #size [H,W]
+    |       | -- quantile_mean_flow.npy      #size [10,H,W]
+    |       | -- quantile_var_flow.npy       #size [10,H,W]
+    |       | -- linear_mean_flow.npy        #size [10,H,W]
+    |       | -- linear_var_flow.npy         #size [10,H,W]
+    |       | -- tot_frame.npy      #size [1]
     | -- rigid_flow_sequence/
-    |       | -- global_mean_flow.npy
-    |       | -- global_var_flow.npy
-    |       | -- quantile_mean_flow.npy
-    |       | -- quantile_var_flow.npy
-    |       | -- linear_mean_flow.npy
-    |       | -- linear_var_flow.npy
-    |       | -- tot_frame.npy
+    |       | -- global_mean_flow.npy        #size [H,W]
+    |       | -- global_var_flow.npy         #size [H,W]
+    |       | -- quantile_mean_flow.npy      #size [10,H,W]
+    |       | -- quantile_var_flow.npy       #size [10,H,W]
+    |       | -- linear_mean_flow.npy        #size [10,H,W]
+    |       | -- linear_var_flow.npy         #size [10,H,W]
+    |       | -- tot_frame.npy      #size [1]
+    | -- rigid_flow_distribution2/
+    |       | -- global_mean_flow.npy        #size [H,W]
+    |       | -- global_var_flow.npy         #size [H,W]
+    |       | -- quantile_mean_flow.npy      #size [10,H,W]
+    |       | -- quantile_var_flow.npy       #size [10,H,W]
+    |       | -- linear_mean_flow.npy        #size [10,H,W]
+    |       | -- linear_var_flow.npy         #size [10,H,W]
+    |       | -- quantile_flow_count.npy     #size [10,H,W]
+    |       | -- linear_flow_count.npy       #size [10,H,W] 
+    |       | -- tot_frame.npy       #size [1]
+    | -- rigid_flow_sequence2/
+    |       | -- global_mean_flow.npy        #size [H,W]
+    |       | -- global_var_flow.npy         #size [H,W]
+    |       | -- quantile_mean_flow.npy      #size [10,H,W]
+    |       | -- quantile_var_flow.npy       #size [10,H,W]
+    |       | -- linear_mean_flow.npy        #size [10,H,W]
+    |       | -- linear_var_flow.npy         #size [10,H,W]
+    |       | -- quantile_flow_count.npy     #size [10,H,W]
+    |       | -- linear_flow_count.npy       #size [10,H,W] 
+    |       | -- tot_frame.npy       #size [1]
 ```
 
 ## Depth distribution
+The depth distribution has been obtained with the script "depthDataProcess.py". The data are saved in a numpy array file, in a linear or a quantile format.
+
 ## Rigid Flow statistics
+The rigid flow statisctics have been obtained with the scripts "rigidFlowDataProcess.py" and "rigidFlowDataProcess_sequence.py". The files contain the rigid flow mean and variance for each pixel and (linear) depth quantile. The second script takes into consideration the mean and the variance for each sequence, the final result is the mean between the sequences.
 
 # Motion Detection
 ## Detectron2 x SORT x Monodepth2
-## KITTI_motion dataset
 
-The KITTI_motion dataset is the result of "detectMovableObjectsKITTI.py" script. 
+The main script is "motionDetectionKITTI.py". This script allows you to choose between 3 modes, each of them will create a KITTI_motion dataset according to the format written in the next part. Options are written in "mobile_options.py", letting you choose the mode and the parameters you want to use for each algorithm. These algorithm consist in different filters within "filter_model.py". Indeed, at each frame, our criterion will define wether one object is mobile or not. However, because of prediction errors and the accumulation of layers to calculate our criteria, there is a clear lack of consistency between each frame, hence the need to have a sort of backpropagation that will allow us to consider mobile objects in the whole sequence. 
+
+### Simple mode
+The simple mode is a mode that will simply consider objects that were classified as mobile objects a fixed amount of time within the whole sequence.
+
+### Ratio mode
+The amout of time in this mode now depends on the existence time of the object in the sequence. Furthermore, we added the notion of lost objects, by considering the objects that were classified mobile in a frame as not mobile if they have not been considered mobile again in a fixed amount of time. 
+
+### Score mode
+In this mode we changed our criteria, so that they will give us a score between [0,1] instead of the binary output mobile or not mobile. We added to our filter the same ideas seen before, plus the idea of a mobile threshold, at which one object can reasonably be considered as mobile. 
+
+## KITTI_motion dataset
+The KITTI_motion dataset is the result of "motionDetectionKITTI.py" script. Depending on the mode you choose, the name of the dataset will be rather "KITTI_motion_ratio" or "KITTI_motion_score".
 
 ```cmd
 python3 detectMovableObjectsKITTI.py --model_name mono+stereo_1024x320 --ext png --input /path/to/KITTI_raw --ckpt /path/to/detectron2/model.pth --dataset kitti --max_age 3
@@ -176,6 +210,7 @@ The script creates the dataset KITTI_motion, having the same file structure as K
 
 ```
 KITTI_motion/
+    | -- parameters.json
     | -- 2011_09_26/
     |       | -- 2011_09_26_drive_0001_sync/
     |       |       | -- image_03/
@@ -184,6 +219,24 @@ KITTI_motion/
     |       |       |       |       ...
     |       |       |       |       | -- instance_data.json  
     ...
+
+- parameters.json : dictionary of all the parameters used to obtain this dataset
+          -> parameters["mode"]: the mode you chose between ["simple", "ratio", "score"]
+          -> parameters["sort_age"] : max age before one tracklet in SORT is considered lost
+          -> parameters["detectron2_threshold"] : threshold of detectron2 instance prediction
+          -> parameters["monodepth2_model"] : the model used for monodepth2
+          -> parameters["filter_age"] : Number of detected frames before one object should be considered mobile
+          -> parameters["lost_age"] : Number of consecutive undetected frames before one object should be removed
+          -> parameters["ratio"] : Ratio of detected frames before one object should be considered mobile
+          -> parameters["alpha"] : Simple/ratio mode parameter
+          -> parameters["beta"] : Simple/ratio mode parameter
+          -> parameters["gamma"] : Simple/ratio mode parameter
+          -> parameters["mobile_score_threshold"] : Threshold for which one object is considered as a mobile object
+          -> parameters["delta"] : Score mode parameter
+          -> parameters["omega"] : Score mode parameter
+          -> parameters["sig1"] : Score mode parameter
+          -> parameters["sig2"] : Score mode parameter
+          -> parameters["sig3"] : Score mode parameter
 
 - 0000000000.png : encoded mobile mask
           -> 0 corresponds to the background
