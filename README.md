@@ -253,6 +253,8 @@ KITTI_motion/
 
 # References
 
+
+
 ```latex
 @article{monodepth2,
   title     = {Digging into Self-Supervised Monocular Depth Prediction},
@@ -265,6 +267,7 @@ KITTI_motion/
   year = {2019}
 }
 ```
+https://github.com/nianticlabs/monodepth2
 
 ```latex
 @misc{Cityscapes,
@@ -300,3 +303,13 @@ KITTI_motion/
 }
 ```
 
+```latex
+@misc{wu2019detectron2,
+  author =       {Yuxin Wu and Alexander Kirillov and Francisco Massa and
+                  Wan-Yen Lo and Ross Girshick},
+  title =        {Detectron2},
+  howpublished = {\url{https://github.com/facebookresearch/detectron2}},
+  year =         {2019}
+}
+```
+https://github.com/facebookresearch/detectron2
