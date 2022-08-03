@@ -179,6 +179,8 @@ We preprocessed the KITTI_raw in order to have statistical data to use for motio
     |       | -- tot_frame.npy       #size [1]
 ```
 
+Data can be found on NICOLAS server, in ~/workspace_philippe/monodepth2/KITTI_raw
+
 ## Depth distribution
 The depth distribution has been obtained with the script "depthDataProcess.py". The data are saved in a numpy array file, in a linear or a quantile format.
 
