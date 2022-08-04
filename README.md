@@ -107,6 +107,9 @@ elif args.dataset == "kitti8":
 
 This script uses the "detectron2CustomDataset.py" script, both should be in the same file. You can add your own custom dataset in the main function, by following the already written code. The results will be saved in the output file, along with the events file for tensorboard vizualisation.
 
+Here is the link were you can find a pretrained model on cityscapes according to training labels described earlier, and fine-tuned on kitti segmentation dataset:
+https://drive.google.com/drive/folders/15EgCTQ3AFBcGQGh_5dKrZ5SBc-9JVY8J?usp=sharing
+
 ## Evaluation
 
 The evaluation is done in "detectron2Evluate.py"
